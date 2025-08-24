@@ -2,41 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Billboard Detection App Design System - Civic Tech Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    /* Core brand colors */
+    --background: 248 250 252;
+    --foreground: 215 25% 27%;
+    
+    /* Trust & Authority (Blues) */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 213 93% 68%;
+    
+    /* Violation (Reds) */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --violation: 0 73% 56%;
+    --violation-foreground: 0 0% 100%;
+    
+    /* Compliant (Greens) */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --compliant: 134 61% 41%;
+    --compliant-foreground: 0 0% 100%;
+    
+    /* Interface colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --card-foreground: 215 25% 27%;
+    --card-hover: 210 40% 98%;
+    
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 25% 27%;
+    
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 60%;
+    
+    --accent: 212 98% 95%;
+    --accent-foreground: 217 32% 17%;
+    
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+    
+    /* Civic gradients */
+    --gradient-civic: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-trust: linear-gradient(180deg, hsl(var(--primary)/0.1), hsl(var(--primary)/0.05));
+    --gradient-violation: linear-gradient(135deg, hsl(var(--violation)), hsl(0 73% 66%));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(134 61% 51%));
+    
+    /* Shadows */
+    --shadow-civic: 0 4px 20px hsl(var(--primary)/0.1);
+    --shadow-violation: 0 4px 20px hsl(var(--violation)/0.15);
+    --shadow-success: 0 4px 20px hsl(var(--success)/0.15);
+    --shadow-card: 0 2px 8px hsl(215 25% 27%/0.08);
+    
+    /* Animation */
+    --transition-civic: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
