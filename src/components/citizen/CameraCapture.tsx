@@ -4,19 +4,65 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, Camera, Upload, Zap, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 const CameraCapture = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasImage, setHasImage] = useState(false);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const handleCapture = () => {
-    setHasImage(true);
-    toast({
-      title: "Photo captured!",
-      description: "Ready for AI analysis",
-    });
+  const handleCapture = async () => {
+    try {
+      const image = await CapCamera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+      });
+
+      if (image.dataUrl) {
+        setCapturedImage(image.dataUrl);
+        setHasImage(true);
+        toast({
+          title: "Photo captured!",
+          description: "Ready for AI analysis",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Camera Error",
+        description: "Failed to capture photo. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUploadFromGallery = async () => {
+    try {
+      const image = await CapCamera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Photos,
+      });
+
+      if (image.dataUrl) {
+        setCapturedImage(image.dataUrl);
+        setHasImage(true);
+        toast({
+          title: "Photo selected!",
+          description: "Ready for AI analysis",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Gallery Error",
+        description: "Failed to select photo. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAnalyze = async () => {
@@ -54,15 +100,12 @@ const CameraCapture = () => {
         <div className="container mx-auto max-w-md">
           {/* Camera Preview */}
           <Card className="aspect-square mb-6 overflow-hidden bg-muted relative">
-            {hasImage ? (
-              <div className="w-full h-full bg-gradient-to-br from-muted to-card flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Camera className="h-12 w-12 text-primary" />
-                  </div>
-                  <p className="text-muted-foreground">Billboard captured</p>
-                </div>
-              </div>
+            {hasImage && capturedImage ? (
+              <img 
+                src={capturedImage} 
+                alt="Captured billboard" 
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full bg-muted flex items-center justify-center">
                 <div className="text-center">
@@ -113,7 +156,10 @@ const CameraCapture = () => {
                 </Button>
                 
                 <Button 
-                  onClick={() => setHasImage(false)}
+                  onClick={() => {
+                    setHasImage(false);
+                    setCapturedImage(null);
+                  }}
                   variant="outline"
                   className="w-full"
                 >
@@ -122,7 +168,11 @@ const CameraCapture = () => {
               </div>
             )}
 
-            <Button variant="outline" className="w-full">
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={handleUploadFromGallery}
+            >
               <Upload className="mr-2 h-4 w-4" />
               Upload from Gallery
             </Button>
